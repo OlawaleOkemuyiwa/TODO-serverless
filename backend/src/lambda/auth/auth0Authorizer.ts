@@ -65,7 +65,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
   const response = await Axios.get(jwksUrl)
   const { keys } = response.data
-  const signingKey = keys.find((key) => key.id === jwt.header.kid)
+  const signingKey = keys.find((key) => key.kid === jwt.header.kid)
   logger.info('signingKey', signingKey)
   if (!signingKey) throw new Error('Provided JWKS endpoint contains no key')
   const pem = signingKey.x5c[0]
