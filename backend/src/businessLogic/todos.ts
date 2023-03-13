@@ -32,3 +32,11 @@ export const createTodo = async (
 
   return await todosAccess.createTodoItem(newItem)
 }
+
+export const getTodosForUser = async (userId: string) => {
+  logger.info(`Getting todo items for user: ${userId}...`)
+
+  const todoItems = await todosAccess.getAllTodos(userId)
+
+  return todoItems
+}
