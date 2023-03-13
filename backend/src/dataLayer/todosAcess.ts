@@ -18,23 +18,6 @@ export class TodosAccess {
     private readonly todosIndex = process.env.INDEX_NAME
   ) {}
 
-  async getAllTodos(userId: string): Promise<TodoItem[]> {
-    logger.info('Getting all todo items...')
-
-    const result = await this.docClient
-      .query({
-        TableName: this.todosTable,
-        IndexName: this.todosIndex,
-        KeyConditionExpression: 'userId = :userId',
-        ExpressionAttributeValues: {
-          ':userId': userId
-        }
-      })
-      .promise()
-
-    return result.Items as TodoItem[]
-  }
-
   async createTodoItem(todo: TodoItem): Promise<TodoItem> {
     logger.info('Creating todo item...')
 
@@ -48,6 +31,24 @@ export class TodosAccess {
     logger.info('Todo item created', createdTodo)
 
     return todo as TodoItem
+  }
+
+  async getAllTodos(userId: string) {
+    logger.info('Getting all todo items...')
+
+    const result = await this.docClient
+      .query({
+        TableName: this.todosTable,
+        IndexName: this.todosIndex,
+        KeyConditionExpression: 'userId = :userId',
+        ExpressionAttributeValues: {
+          ':userId': userId
+        }
+      })
+      .promise()
+    const items = result.Items
+    logger.info('todos', items)
+    return items
   }
 
   async updateTodoItem(
