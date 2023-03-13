@@ -76,6 +76,9 @@ export class TodosAccess {
         }
       })
       .promise()
+
+    logger.info('Update successful')
+
     return todoUpdate
   }
 
@@ -91,6 +94,8 @@ export class TodosAccess {
         }
       })
       .promise()
+
+    logger.info('Todo item successfully deleted')
   }
 
   async updateTodoAttachmentUrl(

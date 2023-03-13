@@ -2,7 +2,7 @@ import { TodosAccess } from '../dataLayer/todosAcess'
 import { AttachmentUtils } from '../helpers/attachmentUtils'
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
-//import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
+import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
 //import * as createError from 'http-errors'
@@ -12,6 +12,7 @@ const logger = createLogger('TodosAccess')
 const attachmentUtils = new AttachmentUtils()
 const todosAccess = new TodosAccess()
 
+//create todo func
 export const createTodo = async (
   newTodo: CreateTodoRequest,
   userId: string
@@ -33,10 +34,39 @@ export const createTodo = async (
   return await todosAccess.createTodoItem(newItem)
 }
 
+//read todos func
 export const getTodosForUser = async (userId: string) => {
   logger.info(`Getting todo items for user: ${userId}...`)
 
   const todoItems = await todosAccess.getAllTodos(userId)
 
   return todoItems
+}
+
+//update todo func
+export const updateTodo = async (
+  userId: string,
+  todoId: string,
+  todoUpdate: UpdateTodoRequest
+) => {
+  logger.info('Todo update in progress...')
+  await todosAccess.updateTodoItem(userId, todoId, todoUpdate)
+}
+
+//delete todo func
+export const deleteTodo = async (todoId: string, userId: string) => {
+  logger.info('Todo item about to be deleted...')
+  await todosAccess.deleteTodoItem(todoId, userId)
+}
+
+//create presigned URL
+export const createAttachmentPresignedUrl = async (
+  todoId: string,
+  userId: string
+): Promise<string> => {
+  logger.info(
+    'Creating attachment presigned URL in progress for user...',
+    userId
+  )
+  return attachmentUtils.getUploadUrl(todoId)
 }
