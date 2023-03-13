@@ -45,12 +45,12 @@ export const getTodosForUser = async (userId: string) => {
 
 //update todo func
 export const updateTodo = async (
-  userId: string,
   todoId: string,
+  userId: string,
   todoUpdate: UpdateTodoRequest
 ) => {
   logger.info('Todo update in progress...')
-  await todosAccess.updateTodoItem(userId, todoId, todoUpdate)
+  await todosAccess.updateTodoItem(todoId, userId, todoUpdate)
 }
 
 //delete todo func
