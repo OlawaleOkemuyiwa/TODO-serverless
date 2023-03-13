@@ -61,12 +61,9 @@ export const deleteTodo = async (todoId: string, userId: string) => {
 
 //create presigned URL
 export const createAttachmentPresignedUrl = async (
-  todoId: string,
-  userId: string
+  userId: string,
+  todoId: string
 ): Promise<string> => {
-  logger.info(
-    'Creating attachment presigned URL in progress for user...',
-    userId
-  )
+  logger.info('Creating an attachment presigned URL for user', userId, todoId)
   return attachmentUtils.getUploadUrl(todoId)
 }

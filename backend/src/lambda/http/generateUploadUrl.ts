@@ -5,6 +5,7 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { createAttachmentPresignedUrl } from '../../businessLogic/todos'
+
 import { getUserId } from '../utils'
 
 export const handler = middy(
@@ -13,7 +14,7 @@ export const handler = middy(
     // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
     const userId = getUserId(event)
 
-    const url = await createAttachmentPresignedUrl(todoId, userId)
+    const url = await createAttachmentPresignedUrl(userId, todoId)
 
     return {
       statusCode: 201,
